@@ -1,0 +1,358 @@
+name: Jekyll site CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the site in the jekyll/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+- name: Cache
+  uses: actions/cache@v1.2.1
+  with:
+    # A directory to store and save the cache
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    - name: Magic Nix Cache
+  # You may pin to the exact commit or the version.
+  # uses: DeterminateSystems/magic-nix-cache-action@8a218f9e264e9c3803c9a1ee1c30d8e4ab55be63
+  uses: DeterminateSystems/magic-nix-cache-action@v2
+  with:
+    # The host and port to listen on.
+    listen: # optional, default is 127.0.0.1:37515
+    # Your preferred upstream cache. Store paths in this store will not be cached in GitHub Actions' cache.
+    upstream-cache: # optional, default is https://cache.nixos.org
+    # Run a version of the cache binary from somewhere already on disk. Conflicts with all other `source-*` options.
+    source-binary: # optional
+    # The branch of `magic-nix-cache` to use. Conflicts with all other `source-*` options.
+    source-branch: # optional, default is main
+    # The PR of `magic-nix-cache` to use. Conflicts with all other `source-*` options.
+    source-pr: # optional
+    # The revision of `nix-magic-nix-cache` to use. Conflicts with all other `source-*` options.
+    source-revision: # optional
+    # The tag of `magic-nix-cache` to use. Conflicts with all other `source-*` options.
+    source-tag: # optional
+    # A URL pointing to a `magic-nix-cache` binary. Overrides all other `source-*` options.
+    source-url: # optional
+    # Diagnostic endpoint url where diagnostics and performance data is sent. To disable set this to an empty string.
+    diagnostic-endpoint: # optional, default is https://install.determinate.systems/magic-nix-cache/perf
+    - name: Cache Restore
+  # You may pin to the exact commit or the version.
+  # uses: ylemkimon/cache-restore@3994115a74ced4c0955d013046cde62ee6819a1d
+  uses: ylemkimon/cache-restore@v2.1.3
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+	- name: Tool Cache
+  # You may pin to the exact commit or the version.
+  # uses: AnimMouse/tool-cache@7b021aa7c264cdee652177f80b4f16b69b7e299c
+  uses: AnimMouse/tool-cache@v1
+  with:
+    # Folder name of the software inside runner temp
+    folder_name: 
+    # Boolean value if cache was found
+    cache-hit: # optional
+	- name: Tool Cache
+  # You may pin to the exact commit or the version.
+  # uses: AnimMouse/tool-cache@7b021aa7c264cdee652177f80b4f16b69b7e299c
+  uses: AnimMouse/tool-cache@v1
+  with:
+    # Folder name of the software inside runner temp
+    folder_name: 
+    # Boolean value if cache was found
+    cache-hit: # optional
+	- name: Tool Cache
+  # You may pin to the exact commit or the version.
+  # uses: AnimMouse/tool-cache@7b021aa7c264cdee652177f80b4f16b69b7e299c
+  uses: AnimMouse/tool-cache@v1
+  with:
+    # Folder name of the software inside runner temp
+    folder_name: 
+    # Boolean value if cache was found
+    cache-hit: # optional
+	- name: Tool Cache
+  # You may pin to the exact commit or the version.
+  # uses: AnimMouse/tool-cache@7b021aa7c264cdee652177f80b4f16b69b7e299c
+  uses: AnimMouse/tool-cache@v1
+  with:
+    # Folder name of the software inside runner temp
+    folder_name: 
+    # Boolean value if cache was found
+    cache-hit: # optional
+	- name: Tool Cache
+  # You may pin to the exact commit or the version.
+  # uses: AnimMouse/tool-cache@7b021aa7c264cdee652177f80b4f16b69b7e299c
+  uses: AnimMouse/tool-cache@v1
+  with:
+    # Folder name of the software inside runner temp
+    folder_name: 
+    # Boolean value if cache was found
+    cache-hit: # optional
+	- name: Cache Validation
+  # You may pin to the exact commit or the version.
+  # uses: techservicesillinois/cache-validation@55771190d43bf18451d5432464f47c55aefa916f
+  uses: techservicesillinois/cache-validation@v1.1.4
+  with:
+    # A list of directories to validate
+    path: 
+    # A boolean value to indicate if a cache hit occurred.
+    cache_hit: 
+    # A boolean value to indicate if checksum errors should be treated as fatal errors.
+    fatal: # optional
+    # A boolean value that when set to true causes a path to be recursively removed if it contains invalid files.
+    remove_invalid_paths: # optional
+    # A boolean value that when set to true causes invalid files in a path to be removed, valid files are always retained.
+    remove_invalid_files: # optional
+    # A boolean value that when set to true recursively updates the modification and access times of each path.
+    touch: # optional
+	
+	- name: S3 Caching
+  # You may pin to the exact commit or the version.
+  # uses: dmolik/actions-s3-caching@1b18c184b71325ec10dfdab5f1690a50a198b5be
+  uses: dmolik/actions-s3-caching@v1.0.5
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+    # An AWS S3 bucket to save cache
+    aws-s3-bucket: 
+    # An AWS access key id to access the bucket
+    aws-access-key-id: 
+    # An AWS secret access key to access the bucket
+    aws-secret-access-key: 
+    # An AWS region where the bucket is located
+    aws-region: # optional
+    # An endpoint of AWS S3 (for compatible software)
+    aws-endpoint: # optional
+    # Whether to use the bucket name as the endpoint for this request.
+    aws-s3-bucket-endpoint: # optional, default is true
+    # Whether to force path style URLs for S3 objects.
+    aws-s3-force-path-style: # optional
+    - name: Cache S3
+  # You may pin to the exact commit or the version.
+  # uses: whywaita/actions-cache-s3@587972ca9c37d15288b717cd6df35f897042f573
+  uses: whywaita/actions-cache-s3@v2-s3
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+    # An AWS S3 bucket to save cache
+    aws-s3-bucket: 
+    # An AWS access key id to access the bucket
+    aws-access-key-id: 
+    # An AWS secret access key to access the bucket
+    aws-secret-access-key: 
+    # An AWS region where the bucket is located
+    aws-region: # optional
+    # An endpoint of AWS S3 (for compatible software)
+    aws-endpoint: # optional
+    # Whether to use the bucket name as the endpoint for this request.
+    aws-s3-bucket-endpoint: # optional, default is true
+    # Whether to force path style URLs for S3 objects.
+    aws-s3-force-path-style: # optional
+	- name: NextJS Cache
+  # You may pin to the exact commit or the version.
+  # uses: jongwooo/next-cache@99ef7ae4a6684baafc08e591524d1987dcdc4023
+  uses: jongwooo/next-cache@v1.0.0
+  - name: s3 cache
+  # You may pin to the exact commit or the version.
+  # uses: tespkg/actions-cache@12721c08d65e046d6006e5729ba76bff421ac0ef
+  uses: tespkg/actions-cache@v1.3.3
+  with:
+    # s3 / minio endpoint, see: https://docs.min.io/docs/javascript-client-api-reference.html
+    endpoint: # optional, default is s3.amazonaws.com
+    # AWS region
+    region: # optional
+    # minio port
+    port: # optional
+    # use insecure http connection to minio
+    insecure: # optional
+    # s3 / minio accessKey
+    accessKey: 
+    # s3 / minio secretKey
+    secretKey: 
+    # s3 session token - required when using role
+    sessionToken: # optional
+    # s3 / minio bucket
+    bucket: 
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # Use github actions/cache as fallback
+    use-fallback: # optional, default is true
+	- name: FTP Cache
+  # You may pin to the exact commit or the version.
+  # uses: simonrenger/ftp-cache@a74daf7720eed0594778a5602fb55cd4b335590c
+  uses: simonrenger/ftp-cache@v2
+  with:
+    # FTP or SFTP
+    type: # default is FTP
+    # Host
+    host: 
+    # Upload,Download,Remove
+    mode: # default is true
+    # User
+    user: 
+    # Password
+    password: 
+    # Source Folder
+    source: 
+    # Destination Folder
+    destination: # optional
+    # Is Connection Secure? (Only relevant for FTP)
+    secure: # optional, default is true
+    # timeout Folder
+    timeout: # optional, default is 30000
+    # Cache Name. Needed if archive = true
+    archive-name: # optional
+    # Creates a tar archive for the given folder and uploads/downloads that
+    archive: # optional, default is true
+- name: NextJS Cache
+  # You may pin to the exact commit or the version.
+  # uses: jongwooo/next-cache@99ef7ae4a6684baafc08e591524d1987dcdc4023
+  uses: jongwooo/next-cache@v1.0.0
+  
+  - name: cache-make
+  # You may pin to the exact commit or the version.
+  # uses: flat35hd99/cache-make@2d34ad646051ea075f1e3b420da6725bbd892b49
+  uses: flat35hd99/cache-make@v1.0.0
+  with:
+    # commit id, tag, etc.
+    before-ref: # optional
+    # commit id, tag, etc.
+    after-ref: # optional
+	- name: FTP Cache
+  # You may pin to the exact commit or the version.
+  # uses: simonrenger/ftp-cache@a74daf7720eed0594778a5602fb55cd4b335590c
+  uses: simonrenger/ftp-cache@v2
+  with:
+    # FTP or SFTP
+    type: # default is FTP
+    # Host
+    host: 
+    # Upload,Download,Remove
+    mode: # default is true
+    # User
+    user: 
+    # Password
+    password: 
+    # Source Folder
+    source: 
+    # Destination Folder
+    destination: # optional
+    # Is Connection Secure? (Only relevant for FTP)
+    secure: # optional, default is true
+    # timeout Folder
+    timeout: # optional, default is 30000
+    # Cache Name. Needed if archive = true
+    archive-name: # optional
+    # Creates a tar archive for the given folder and uploads/downloads that
+    archive: # optional, default is true
+- name: Clear Cache
+  # You may pin to the exact commit or the version.
+  # uses: TheRealRyGuy/clear-cache-action@1ea3dc483ec08644e99321c4417c290349defe4f
+  uses: TheRealRyGuy/clear-cache-action@v0.1
+  with:
+    # Github Token
+    token: 
+	- name: Local cache
+  # You may pin to the exact commit or the version.
+  # uses: j3hempsey-actions/local-cache@98265d4a07d0a1fa252b25ed01ad98f5e112911e
+  uses: j3hempsey-actions/local-cache@v1.0.0
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring stale cache if no cache hit occurred for key. Note `cache-hit` returns false in this case.
+    restore-keys: # optional
+    # Skip saving of the cache. Useful if you only want to restore the files of another build / job.
+    skip-save: # optional
+    # Skip restoring of the cache. Useful if you want to create the cache, but never rely on any old/existing files.
+    skip-restore: # optional
+	- name: S3 Caching
+  # You may pin to the exact commit or the version.
+  # uses: dmolik/actions-s3-caching@1b18c184b71325ec10dfdab5f1690a50a198b5be
+  uses: dmolik/actions-s3-caching@v1.0.5
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+    # An AWS S3 bucket to save cache
+    aws-s3-bucket: 
+    # An AWS access key id to access the bucket
+    aws-access-key-id: 
+    # An AWS secret access key to access the bucket
+    aws-secret-access-key: 
+    # An AWS region where the bucket is located
+    aws-region: # optional
+    # An endpoint of AWS S3 (for compatible software)
+    aws-endpoint: # optional
+    # Whether to use the bucket name as the endpoint for this request.
+    aws-s3-bucket-endpoint: # optional, default is true
+    # Whether to force path style URLs for S3 objects.
+    aws-s3-force-path-style: # optional
+	- name: opencv-cache
+  # You may pin to the exact commit or the version.
+  # uses: UrielCh/opencv-cache-action@5e96fa2651e0e4371a51052bb85a41c8dc430657
+  uses: UrielCh/opencv-cache-action@V1
+  with:
+    # branch to checkout default is 4.x
+    branch: # default is 4.x
+    # List of feature to compile, the less features you select the smallest will be the image.
+    BUILD_LIST: # default is core
+    # redude the size of the image by removing samples and tests.
+    DO_SHRINK: # optional, default is 
+    # Disable openCV contrib.
+    NO_CONTRIB: # optional, default is 
+	
+	
+  
+  
+  
+  
+	
+    
+    
+    
+    
+    
+    
